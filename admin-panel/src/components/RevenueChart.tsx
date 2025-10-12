@@ -180,7 +180,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
             console.warn('Invalid day date:', periodStr);
             return periodStr;
           }
-          return dayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          return dayDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
           
         case 'week':
           // Handle daily format: YYYY-MM-DD
@@ -189,7 +189,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
             console.warn('Invalid week date:', periodStr);
             return periodStr;
           }
-          return weekDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+          return weekDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
           
         case 'year':
           // Handle monthly format: YYYY-MM
@@ -201,7 +201,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
               console.warn('Invalid month date:', periodStr);
               return periodStr;
             }
-            return monthDate.toLocaleDateString('en-US', { month: 'short' });
+            return monthDate.toLocaleDateString('en-US', { month: '2-digit' }).replace(/\//g, '-');
           }
           return periodStr;
           
@@ -213,7 +213,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
             console.warn('Invalid month date:', periodStr);
             return periodStr;
           }
-          return monthDate.toLocaleDateString('en-US', { day: 'numeric' });
+          return monthDate.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
       }
     } catch (error) {
       console.error('Error formatting period:', error, { periodStr, type });

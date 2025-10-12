@@ -116,6 +116,28 @@ export default function UserProfileHeader({ user }: UserProfileHeaderProps) {
     }
   }
 
+  // Generate a random color for the profile placeholder
+  const getRandomColor = () => {
+    const colors = [
+      'bg-blue-500',
+      'bg-green-500', 
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-red-500',
+      'bg-yellow-500',
+      'bg-teal-500',
+      'bg-orange-500',
+      'bg-cyan-500'
+    ]
+    // Use user ID to generate consistent color for same user
+    const hash = user.personalInfo.name.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0)
+      return a & a
+    }, 0)
+    return colors[Math.abs(hash) % colors.length]
+  }
+
   return (
     <div className="relative">
       {/* Profile Image - Positioned outside the card */}
@@ -127,9 +149,9 @@ export default function UserProfileHeader({ user }: UserProfileHeaderProps) {
             className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
           />
         ) : (
-          <div className="w-28 h-28 rounded-full bg-var(--bg-tertiary) flex items-center justify-center border-4 border-white shadow-lg">
-            <User className="h-14 w-14 text-var(--text-muted)" />
-          </div>
+            <div className={`w-28 h-28 rounded-full ${getRandomColor()} flex items-center justify-center border-4 border-white shadow-lg`}>
+              <User className="h-14 w-14 text-white" />
+            </div>
         )}
       </div>
 
