@@ -8,7 +8,7 @@ interface GrowthData {
   value: number
   growth: number
 }
-
+ 
 interface GrowthChartModalProps {
   isOpen: boolean
   onClose: () => void
