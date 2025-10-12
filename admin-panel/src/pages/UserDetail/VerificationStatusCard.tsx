@@ -299,7 +299,7 @@ export default function VerificationStatusCard({
         </div>
 
         {/* Purchase Details */}
-        {user.accountStatus.backgroundVerification !== 'unpaid' && (
+        {/* {user.accountStatus.backgroundVerification !== 'unpaid' && (
           <div className="bg-var(--bg-tertiary) p-3 rounded-lg">
             {user.adminData.purchases.total > 0 && user.adminData.purchases.recent.length > 0 ? (
               <>
@@ -312,10 +312,10 @@ export default function VerificationStatusCard({
               <p className="text-xs text-var(--text-muted)">Background check has been paid for</p>
             )}
           </div>
-        )}
+        )} */}
 
         {/* Warning: Purchase Required */}
-        {user.accountStatus.backgroundVerification === 'unpaid' && user.adminData.purchases.total === 0 && (
+        {/* {user.accountStatus.backgroundVerification === 'unpaid' && user.adminData.purchases.total === 0 && (
           <div className="glass-card p-3 border-l-4 border-var(--warning)">
             <div className="flex items-center">
               <AlertCircle className="h-4 w-4 text-var(--warning) mr-2" />
@@ -324,10 +324,10 @@ export default function VerificationStatusCard({
               </p>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Manual Verify */}
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Search className="h-5 w-5 text-var(--text-muted)" />
             <p className="text-sm font-medium text-var(--text-primary)">Manual Verification:</p>
@@ -340,7 +340,7 @@ export default function VerificationStatusCard({
             <Search className="h-4 w-4 mr-2" />
             {actionLoading.manualVerify ? 'Fetching...' : 'Verify'}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   )
