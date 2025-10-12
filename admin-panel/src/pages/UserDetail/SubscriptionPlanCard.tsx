@@ -74,7 +74,7 @@ export default function SubscriptionPlanCard({ user, actionLoading, onMarkPlanAs
           {!activePlan && (
             <button
               onClick={onMarkPlanAsPaid}
-              className="btn btn-success btn-sm w-28"
+              className="btn btn-success btn-sm w-28 whitespace-nowrap"
               disabled={actionLoading.markPlanAsPaid}
               title="Admin can mark this user's subscription plan as paid without requiring user payment"
             >

@@ -288,7 +288,7 @@ export default function VerificationStatusCard({
           {user.accountStatus.backgroundVerification === 'unpaid' && (
             <button
               onClick={onMarkAsPaid}
-              className="btn btn-success btn-sm w-28"
+              className="btn btn-success btn-sm w-28 whitespace-nowrap"
               disabled={user.adminData.purchases.total > 0 || actionLoading.markAsPaid}
               title="Admin can mark this user's background verification as paid without requiring user payment"
             >
