@@ -225,8 +225,8 @@ export default function VerificationStatusCard({
       </h3>
       <div className="space-y-4">
         {/* Background Check Status */}
-        <div>
-          <div className="flex items-center space-x-3 mb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
             <CheckCircle className="h-5 w-5 text-var(--text-muted)" />
             <div className="flex items-center space-x-2">
               <p className="text-sm font-medium text-var(--text-primary)">Background Check:</p>
@@ -236,12 +236,12 @@ export default function VerificationStatusCard({
             </div>
           </div>
           {/* Background Check Action Buttons */}
-          <div className="flex items-center space-x-2 ml-8">
+          <div className="flex items-center space-x-2">
             {user.accountStatus.backgroundVerification === 'pending' && (
               <>
                 <button
                   onClick={() => onBackgroundVerification('approved')}
-                  className="btn btn-success btn-sm"
+                  className="btn btn-success btn-sm w-20"
                   disabled={actionLoading.backgroundVerification}
                   title="Approve background check"
                 >
@@ -250,7 +250,7 @@ export default function VerificationStatusCard({
                 </button>
                 <button
                   onClick={() => onBackgroundVerification('rejected')}
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-danger btn-sm w-20"
                   disabled={actionLoading.backgroundVerification}
                   title="Reject background check"
                 >
@@ -262,7 +262,7 @@ export default function VerificationStatusCard({
             {(user.accountStatus.backgroundVerification === 'approved' || user.accountStatus.backgroundVerification === 'rejected') && (
               <button
                 onClick={() => onBackgroundVerification('pending')}
-                className="btn btn-warning btn-sm hover-lift"
+                className="btn btn-warning btn-sm w-20 hover-lift"
                 disabled={actionLoading.backgroundVerification}
                 title="Reset to pending"
               >
@@ -274,8 +274,8 @@ export default function VerificationStatusCard({
         </div>
 
         {/* Purchase Status */}
-        <div>
-          <div className="flex items-center space-x-3 mb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
             <CreditCard className="h-5 w-5 text-var(--text-muted)" />
             <div className="flex items-center space-x-2">
               <p className="text-sm font-medium text-var(--text-primary)">Purchase Status:</p>
@@ -286,17 +286,15 @@ export default function VerificationStatusCard({
           </div>
           {/* Purchase Action Button */}
           {user.accountStatus.backgroundVerification === 'unpaid' && (
-            <div className="flex justify-center pt-2">
-              <button
-                onClick={onMarkAsPaid}
-                className="btn btn-success btn-sm"
-                disabled={user.adminData.purchases.total > 0 || actionLoading.markAsPaid}
-                title="Admin can mark this user's background verification as paid without requiring user payment"
-              >
-                <CreditCard className="h-4 w-4 mr-2" />
-                Mark as Paid
-              </button>
-            </div>
+            <button
+              onClick={onMarkAsPaid}
+              className="btn btn-success btn-sm w-28"
+              disabled={user.adminData.purchases.total > 0 || actionLoading.markAsPaid}
+              title="Admin can mark this user's background verification as paid without requiring user payment"
+            >
+              <CreditCard className="h-4 w-4 mr-2" />
+              Mark as Paid
+            </button>
           )}
         </div>
 
@@ -328,25 +326,20 @@ export default function VerificationStatusCard({
           </div>
         )}
 
-        {/* Manual Verify and View Background Checks Buttons */}
-        <div className="flex flex-col space-y-2 pt-2">
+        {/* Manual Verify */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Search className="h-5 w-5 text-var(--text-muted)" />
+            <p className="text-sm font-medium text-var(--text-primary)">Manual Verification:</p>
+          </div>
           <button
             onClick={onManualVerify}
-            className="btn btn-secondary btn-sm"
+            className="btn btn-secondary btn-sm w-24"
             disabled={actionLoading.manualVerify}
           >
             <Search className="h-4 w-4 mr-2" />
-            {actionLoading.manualVerify ? 'Fetching Records...' : 'Manual Verify'}
+            {actionLoading.manualVerify ? 'Fetching...' : 'Verify'}
           </button>
-          
-          {/* <button
-            onClick={onViewBackgroundChecks}
-            className="btn btn-primary btn-sm hover-lift"
-            disabled={!backgroundCheckResults || backgroundCheckResults.length === 0}
-          >
-            <FileSearch className="h-4 w-4 mr-2" />
-            View Background Checks
-          </button> */}
         </div>
       </div>
     </div>

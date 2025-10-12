@@ -835,8 +835,8 @@ function UserDetail() {
           
           {/* Main Content Grid with Separators */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            {/* Left Column - User Profile & Activity (8 columns) */}
-            <div className="xl:col-span-8 space-y-6">
+            {/* Left Column - User Profile & Activity (7 columns) */}
+            <div className="xl:col-span-7 space-y-6">
               {/* Account Status Section */}
               <div>
                 <AccountStatusCard 
@@ -847,9 +847,8 @@ function UserDetail() {
               
               {/* Profile Information Section */}
               <div className="border-t border-var(--border-light) pt-6">
-                  <div className="border-r border-var(--border-light) pr-6">
+                  
                     <PersonalInfoCard user={userData} />
-                  </div>
                   
               </div>
               <div className="">
@@ -884,8 +883,8 @@ function UserDetail() {
               </div> */}
             </div>
                   
-            {/* Right Sidebar - Account Management (4 columns) */}
-            <div className="xl:col-span-4 border-l border-var(--border-light) pl-6 space-y-6">
+            {/* Right Sidebar - Account Management (5 columns) */}
+            <div className="xl:col-span-5 border-l border-var(--border-light) pl-6 flex flex-col space-y-6">
               {/* Verification Status Section */}
               <div>
                 <VerificationStatusCard
@@ -909,7 +908,7 @@ function UserDetail() {
               </div>
               
               {/* Notification History Section */}
-              <div className="border-t border-var(--border-light) pt-6">
+              <div className="border-t border-var(--border-light) pt-6 flex-1 flex flex-col">
                 <NotificationHistoryCard userId={userData.id} />
               </div>
               
