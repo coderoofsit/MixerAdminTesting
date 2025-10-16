@@ -273,7 +273,7 @@ function Subscriptions() {
         const currentActivePlan = getCurrentActivePlan(row)
         return (
           <div className="text-sm">
-            {currentActivePlan?.expiryDate ? formatDate(currentActivePlan.expiryDate) : 'N/A'}
+            {currentActivePlan?.expiryDate ? formatDate(currentActivePlan.expiryDate) : ''}
           </div>
         )
       }
