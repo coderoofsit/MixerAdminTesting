@@ -168,9 +168,9 @@ function Subscriptions() {
               </span>
             )}
           </h3>
-          <div className="text-sm text-var(--text-secondary)">
+          {/* <div className="text-sm text-var(--text-secondary)">
             User: {row.userName} ({row.userEmail})
-          </div>
+          </div> */}
         </div>
         
         {isLoadingHistory && (
