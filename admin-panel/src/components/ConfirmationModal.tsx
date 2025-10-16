@@ -14,6 +14,7 @@ interface ConfirmationModalProps {
   onConfirm: (inputValue?: string) => void
   onCancel: () => void
   loading?: boolean
+  showTimer?: boolean
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -28,22 +29,23 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   inputLabel = '',
   onConfirm,
   onCancel,
-  loading = false
+  loading = false,
+  showTimer = false
 }) => {
   const [inputValue, setInputValue] = useState('')
-  const [timer, setTimer] = useState(10)
+  const [timer, setTimer] = useState(5)
   const [timerActive, setTimerActive] = useState(false)
 
   // Reset input and timer when modal opens/closes
   useEffect(() => {
     if (isOpen) {
       setInputValue('')
-      setTimer(10)
-      setTimerActive(true)
+      setTimer(showTimer ? 5 : 0)
+      setTimerActive(showTimer)
     } else {
       setTimerActive(false)
     }
-  }, [isOpen])
+  }, [isOpen, showTimer])
 
   // Timer countdown effect
   useEffect(() => {
@@ -101,7 +103,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   }
 
   const styles = getTypeStyles()
-  const canConfirm = (!requireInput || inputValue.trim().length > 0) && timer === 0 && !loading
+  const canConfirm = (!requireInput || inputValue.trim().length > 0) && (showTimer ? timer === 0 : true) && !loading
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
@@ -170,7 +172,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             disabled={!canConfirm}
             className={`${styles.confirmButton} ${!canConfirm ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {loading ? 'Processing...' : timer > 0 ? `${confirmText} (${timer}s)` : confirmText}
+            {loading ? 'Processing...' : (showTimer && timer > 0) ? `${confirmText} (${timer}s)` : confirmText}
           </button>
         </div>
       </div>

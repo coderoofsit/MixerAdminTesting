@@ -855,7 +855,8 @@ function UserDetail() {
             type: 'danger' as const,
             requireInput: true,
             inputLabel: '',
-            inputPlaceholder: 'Enter the reason for banning this user...'
+            inputPlaceholder: 'Enter the reason for banning this user...',
+            showTimer: true
           }
       case 'delete':
         return {
@@ -863,7 +864,8 @@ function UserDetail() {
           message: 'Are you sure you want to delete this user? This action cannot be undone.',
           confirmText: 'Delete User',
           type: 'danger' as const,
-          requireInput: false
+          requireInput: false,
+          showTimer: true
         }
       case 'backgroundVerification':
         return {

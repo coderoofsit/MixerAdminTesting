@@ -26,6 +26,15 @@ interface User {
   email: string;
   accountStatus: 'active' | 'suspended' | 'banned';
   backgroundVerification: 'pending' | 'approved' | 'rejected';
+  backgroundVerificationStatus?: {
+    status: string;
+    verificationMethod: string;
+    verificationMethodDisplay: string;
+    requiresManualVerification: boolean;
+    lastChecked?: string | null;
+    notes?: string;
+    details: any;
+  };
   createdAt: string;
   lastActive: string;
   currentPlan?: string | null;
@@ -330,7 +339,8 @@ function Users() {
           message: 'Are you sure you want to delete this user? This action cannot be undone.',
           confirmText: 'Delete User',
           type: 'danger' as const,
-          requireInput: false
+          requireInput: false,
+          showTimer: true
         }
       case 'suspend':
         return {
@@ -350,7 +360,8 @@ function Users() {
           type: 'danger' as const,
           requireInput: true,
           inputLabel: 'Reason for ban',
-          inputPlaceholder: 'Enter the reason for banning this user...'
+          inputPlaceholder: 'Enter the reason for banning this user...',
+          showTimer: true
         }
       case 'bulkDelete':
         return {
@@ -358,7 +369,8 @@ function Users() {
           message: `Are you sure you want to delete ${confirmationModal.bulkCount} users? This action cannot be undone.`,
           confirmText: 'Delete Users',
           type: 'danger' as const,
-          requireInput: false
+          requireInput: false,
+          showTimer: true
         }
       default:
         return {
@@ -533,19 +545,20 @@ const handleBulkAction = async (action: 'verify' | 'delete') => {
     }
   }
 
-  const getVerificationBadgeClass = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return 'badge-success'
-      case 'rejected':
-        return 'badge-danger'
-      case 'pending':
-        return 'badge-manually-required'
-      case 'unpaid':
-        return 'badge-secondary'
-      default:
-        return 'badge-secondary'
+  const getVerificationBadgeClass = (verificationMethodDisplay: string) => {
+    if (!verificationMethodDisplay) return 'badge-secondary'
+    
+    const display = verificationMethodDisplay.toLowerCase()
+    if (display.includes('approved') || display.includes('verified')) {
+      return 'badge-success'
+    } else if (display.includes('rejected') || display.includes('failed')) {
+      return 'badge-danger'
+    } else if (display.includes('pending') || display.includes('manual')) {
+      return 'badge-manually-required'
+    } else if (display.includes('unpaid')) {
+      return 'badge-secondary'
     }
+    return 'badge-secondary'
   }
 
   const tableData = users.map(user => ({
@@ -593,8 +606,8 @@ const handleBulkAction = async (action: 'verify' | 'delete') => {
       </span>
     ),
     verification: (
-      <span className={`badge ${getVerificationBadgeClass(user.backgroundVerification)}`}>
-        {user.backgroundVerification === 'pending' ? 'Manually Required' : (user.backgroundVerification || 'Unknown')}
+      <span className={`badge ${getVerificationBadgeClass(user.backgroundVerificationStatus?.verificationMethodDisplay ?? '')}`}>
+        {user.backgroundVerificationStatus?.verificationMethodDisplay || 'Unknown'}
       </span>
     )
     ,createdAt: user.createdAt

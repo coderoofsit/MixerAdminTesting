@@ -87,7 +87,6 @@ const AdminManagement: React.FC = () => {
   
   // Loading states for admin actions
   const [actionLoading, setActionLoading] = useState<{
-    delete?: boolean
     toggle?: boolean
     resetPassword?: boolean
   }>({})
@@ -95,7 +94,7 @@ const AdminManagement: React.FC = () => {
   // Confirmation modal state
   const [confirmationModal, setConfirmationModal] = useState<{
     isOpen: boolean
-    type: 'delete' | 'toggle' | 'resetPassword' | null
+    type: 'toggle' | 'resetPassword' | null
     loading: boolean
     admin?: Admin
   }>({
@@ -163,45 +162,6 @@ const AdminManagement: React.FC = () => {
     }
   };
 
-  const handleDeleteAdmin = (admin: Admin) => {
-    if (admin.role === 'super_admin') {
-      toast.error('Cannot delete super admin');
-      return;
-    }
-
-    setConfirmationModal({
-      isOpen: true,
-      type: 'delete',
-      loading: false,
-      admin
-    })
-  }
-
-  const handleConfirmDelete = async () => {
-    if (!confirmationModal.admin) return
-
-    try {
-      setConfirmationModal(prev => ({ ...prev, loading: true }))
-      setActionLoading(prev => ({ ...prev, delete: true }))
-      // For now, we'll deactivate the admin instead of deleting
-      // You can implement actual deletion in the backend if needed
-      const response = await adminApi.updateAdminStatus(confirmationModal.admin._id, {
-        isActive: false
-      });
-      
-      if (response.data.success) {
-        toast.success('Admin deactivated successfully');
-        fetchData();
-        setEditingAdmin(null); // Close the modal
-      }
-    } catch (error: any) {
-      console.error('Error deleting admin:', error);
-      toast.error(error.response?.data?.message || 'Failed to delete admin');
-    } finally {
-      setActionLoading(prev => ({ ...prev, delete: false }))
-      setConfirmationModal({ isOpen: false, type: null, loading: false })
-    }
-  }
 
   const handleToggleAdminStatus = (admin: Admin) => {
     if (admin.role === 'super_admin') {
@@ -293,9 +253,6 @@ const AdminManagement: React.FC = () => {
     if (!confirmationModal.type) return
 
     switch (confirmationModal.type) {
-      case 'delete':
-        handleConfirmDelete()
-        break
       case 'toggle':
         handleConfirmToggle()
         break
@@ -312,14 +269,6 @@ const AdminManagement: React.FC = () => {
   // Get modal configuration based on type
   const getModalConfig = () => {
     switch (confirmationModal.type) {
-      case 'delete':
-        return {
-          title: 'Deactivate Admin',
-          message: 'Are you sure you want to deactivate this admin account?',
-          confirmText: 'Deactivate Admin',
-          type: 'danger' as const,
-          requireInput: false
-        }
       case 'toggle':
         return {
           title: confirmationModal.admin?.isActive ? 'Deactivate Admin' : 'Activate Admin',
@@ -569,13 +518,13 @@ const AdminManagement: React.FC = () => {
                       )}
                       {user?.role === 'super_admin' && admin.role !== 'super_admin' && (
                         <button
-                          onClick={() => handleDeleteAdmin(admin)}
-                          className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                          disabled={actionLoading.delete}
-                          title="Deactivate Admin"
+                          onClick={() => handleToggleAdminStatus(admin)}
+                          className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={actionLoading.toggle}
+                          title={admin.isActive ? "Deactivate Admin" : "Activate Admin"}
                         >
-                          <X className="h-3 w-3 mr-1" />
-                          {actionLoading.delete ? 'Deactivating...' : 'Deactivate'}
+                          {admin.isActive ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}
+                          {actionLoading.toggle ? 'Processing...' : (admin.isActive ? 'Deactivate' : 'Activate')}
                         </button>
                       )}
                       {admin.role === 'super_admin' && (
