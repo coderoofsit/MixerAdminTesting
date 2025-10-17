@@ -777,7 +777,7 @@ const AdminManagement: React.FC = () => {
               </div>
 
               {/* Info about admin permissions */}
-              <div className="alert alert-info">
+              {/* <div className="alert alert-info">
                 <Shield className="h-4 w-4" />
                 <div>
                   <h3 className="font-bold">Admin Permissions</h3>
@@ -786,10 +786,10 @@ const AdminManagement: React.FC = () => {
                     Only super admin can create and manage other admins.
                   </div>
                 </div>
-              </div>
+              </div> */}
 
                     {/* Form Validation Summary */}
-                    {(!newAdmin.email || !newAdmin.name || !newAdmin.password || 
+                    {/* {(!newAdmin.email || !newAdmin.name || !newAdmin.password || 
                       newAdmin.password.length < 6 || 
                       !/\S+@\S+\.\S+/.test(newAdmin.email)) && (
                       <div className="alert alert-warning">
@@ -803,7 +803,7 @@ const AdminManagement: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                    )}
+                    )} */}
 
                     <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
                       <button 
